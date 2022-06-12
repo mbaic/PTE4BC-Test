@@ -2,7 +2,7 @@
     "id":  "b7991dce-0cb4-4b12-8244-1e6843784669",
     "name":  "PTE4BC",
     "publisher":  "MB Solutions",
-    "version":  "1.0.0.0",
+    "version":  "20.0.0.0",
     "brief":  "",
     "description":  "",
     "privacyStatement":  "",
@@ -10,23 +10,25 @@
     "help":  "",
     "url":  "",
     "logo":  "",
-    "dependencies":  [
-
-                     ],
-    "screenshots":  [
-
-                    ],
-    "platform":  "1.0.0.0",
-    "application":  "19.0.0.0",
+    "dependencies":  [],
+    "screenshots":  [],
+    "platform": "20.0.0.0",
+    "application":  "20.2.0.0",
+    "runtime":  "9.1",    
     "idRanges":  [
                      {
                          "from":  50000,
-                         "to":  99999
+                         "to":  59999
                      }
                  ],
     "resourceExposurePolicy":  {
                                    "allowDebugging":  true,
                                    "allowDownloadingSource":  false,
                                    "includeSourceInSymbolFile":  false
-                               }
+                               },  
+    "features": [
+                    "TranslationFile",
+                    "NoImplicitWith"
+                ],
+    "target": "Cloud"
 }

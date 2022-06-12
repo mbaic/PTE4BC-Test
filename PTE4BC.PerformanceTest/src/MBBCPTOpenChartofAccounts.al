@@ -1,4 +1,4 @@
-﻿codeunit 80009 "BCPT Open Chart of Accounts"
+﻿codeunit 80009 "MB BCPT Open Chart of Accounts"
 {
     // Test codeunits can only run in foreground (UI)
     Subtype = Test;

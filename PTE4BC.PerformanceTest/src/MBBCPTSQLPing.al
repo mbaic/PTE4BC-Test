@@ -1,4 +1,4 @@
-﻿codeunit 80017 "BCPT SQL Ping"
+﻿codeunit 80017 "MB BCPT SQL Ping"
 {
     trigger OnRun();
     var

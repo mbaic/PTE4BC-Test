@@ -1,13 +1,13 @@
-﻿codeunit 80008 "BCPT Make Web Call"
+﻿codeunit 80008 "MB BCPT Make Web Call"
 {
     SingleInstance = true;
 
     trigger OnRun();
     var
-        NewUrl: text;
+        Client: HttpClient;
         RequestMessage: HttpRequestMessage;
         ResponseMessage: HttpResponseMessage;
-        Client: HttpClient;
+        NewUrl: text;
     begin
         NewUrl := 'https://www.microsoft.com';
 

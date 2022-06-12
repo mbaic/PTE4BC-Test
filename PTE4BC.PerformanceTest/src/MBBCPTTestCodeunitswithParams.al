@@ -1,4 +1,4 @@
-﻿enumextension 80000 "Test Codeunits with Params" extends "BCPT Test Param. Enum"
+﻿enumextension 80000 "MB BCPT Test Codeunits with Params" extends "BCPT Test Param. Enum"
 {
     value(80003; "80003")
     {

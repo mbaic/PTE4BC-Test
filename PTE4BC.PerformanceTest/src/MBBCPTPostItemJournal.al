@@ -1,4 +1,4 @@
-﻿codeunit 80020 "BCPT Post Item Journal"
+﻿codeunit 80020 "MB BCPT Post Item Journal"
 {
     SingleInstance = true;
 

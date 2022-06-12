@@ -1,4 +1,4 @@
-﻿codeunit 80013 "BCPT Open RoleCenter SOP"
+﻿codeunit 80013 "MB BCPT Open RoleCenter SOP"
 {
     // Test codeunits can only run in foreground (UI)
     Subtype = Test;

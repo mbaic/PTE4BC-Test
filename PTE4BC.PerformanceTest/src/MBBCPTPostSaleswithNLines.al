@@ -1,40 +1,40 @@
-﻿codeunit 80019 "BCPT Purch. Post with N Lines" implements "BCPT Test Param. Provider"
+﻿codeunit 80018 "MB BCPT Post Sales with N Lines" implements "BCPT Test Param. Provider"
 {
     SingleInstance = true;
 
     trigger OnRun();
     var
-        PurchHeader: Record "Purchase Header";
-        PurchPost: Codeunit "Purch.-Post";
-        PurchHeaderId: Guid;
+        SalesHeader: Record "Sales Header";
+        SalesPost: Codeunit "Sales-Post";
+        SalesHeaderId: Guid;
     begin
-        If not IsInitialized or true then begin
+        If not IsInitialized then begin
             InitTest();
             IsInitialized := true;
         end;
-        PurchHeaderId := CreatePurchaseOrder(BCPTTestContext);
-        PurchHeader.GetBySystemId(PurchHeaderId);
-        PurchHeader.Validate(Receive, true);
-        PurchHeader.Validate(Invoice, true);
-        PurchHeader.Validate("Vendor Invoice No.", PurchHeader."No.");
-        PurchPost.Run(PurchHeader);
+        SalesHeaderId := CreateSalesOrder(BCPTTestContext);
+        SalesHeader.GetBySystemId(SalesHeaderId);
+        SalesHeader.Validate(Ship, true);
+        SalesHeader.Validate(Invoice, true);
+        SalesPost.Run(SalesHeader);
     end;
 
     var
         BCPTTestContext: Codeunit "BCPT Test Context";
         IsInitialized: Boolean;
+        NoOfLinesToCreate: Integer;
         NoOfLinesParamLbl: Label 'Lines';
         ParamValidationErr: Label 'Parameter is not defined in the correct format. The expected format is "%1"';
-        NoOfLinesToCreate: Integer;
+
 
     local procedure InitTest();
     var
-        PurchaseSetup: Record "Purchases & Payables Setup";
         NoSeriesLine: Record "No. Series Line";
+        SalesSetup: Record "Sales & Receivables Setup";
     begin
-        PurchaseSetup.Get();
-        PurchaseSetup.TestField("Order Nos.");
-        NoSeriesLine.SetRange("Series Code", PurchaseSetup."Order Nos.");
+        SalesSetup.Get();
+        SalesSetup.TestField("Order Nos.");
+        NoSeriesLine.SetRange("Series Code", SalesSetup."Order Nos.");
         NoSeriesLine.findset(true, true);
         repeat
             if NoSeriesLine."Ending No." <> '' then begin
@@ -48,58 +48,62 @@
         if Evaluate(NoOfLinesToCreate, BCPTTestContext.GetParameter(NoOfLinesParamLbl)) then;
     end;
 
-    local procedure CreatePurchaseOrder(Var BCPTTestContext: Codeunit "BCPT Test Context"): Guid
+    local procedure CreateSalesOrder(Var BCPTTestContext: Codeunit "BCPT Test Context"): Guid
     var
-        Vendor: Record Vendor;
+        Customer: Record Customer;
         Item: Record Item;
-        PurchaseHeader: Record "Purchase Header";
-        PurchaseLine: Record "Purchase Line";
+        SalesHeader: Record "Sales Header";
+        SalesLine: Record "Sales Line";
         i: Integer;
     begin
-        if not Vendor.get('10000') then
-            Vendor.FindFirst();
-        if not Item.get('70000') then
-            Item.FindFirst();
+        if not Customer.get('10000') then
+            Customer.FindFirst();
+        if not item.get('70000') then
+            Item.FindSet();
         if NoOfLinesToCreate < 0 then
             NoOfLinesToCreate := 0;
         if NoOfLinesToCreate > 10000 then
             NoOfLinesToCreate := 10000;
         BCPTTestContext.StartScenario('Add Order');
-        PurchaseHeader.init();
-        PurchaseHeader."Document Type" := PurchaseHeader."Document Type"::Order;
-        PurchaseHeader.Insert(true);
+        SalesHeader.Init();
+        SalesHeader."Document Type" := SalesHeader."Document Type"::Order;
+        SalesHeader.Insert(true);
+        Commit();
         BCPTTestContext.EndScenario('Add Order');
         BCPTTestContext.UserWait();
         BCPTTestContext.StartScenario('Enter Account No.');
-        PurchaseHeader.Validate("Buy-from Vendor No.", Vendor."No.");
-        PurchaseHeader.Modify(true);
+        SalesHeader.Validate("Sell-to Customer No.", Customer."No.");
+        SalesHeader.Modify(true);
         Commit();
         BCPTTestContext.EndScenario('Enter Account No.');
         BCPTTestContext.UserWait();
-        PurchaseLine."Document Type" := PurchaseHeader."Document Type";
-        PurchaseLine."Document No." := PurchaseHeader."No.";
+        SalesLine."Document Type" := SalesHeader."Document Type";
+        SalesLine."Document No." := SalesHeader."No.";
         for i := 1 to NoOfLinesToCreate do begin
-            PurchaseLine."Line No." += 10000;
-            PurchaseLine.Init();
-            PurchaseLine.Validate(Type, PurchaseLine.Type::Item);
-            PurchaseLine.Insert(true);
+            SalesLine."Line No." += 10000;
+            SalesLine.Init();
+            SalesLine.Validate(Type, SalesLine.Type::Item);
+            SalesLine.Insert(true);
             BCPTTestContext.UserWait();
-            if i = 10 then
+            if i = 1 then
                 BCPTTestContext.StartScenario('Enter Line Item No.');
-            PurchaseLine.Validate("No.", Item."No.");
-            if i = 10 then
+            SalesLine.Validate("No.", Item."No.");
+            if i = 1 then
                 BCPTTestContext.EndScenario('Enter Line Item No.');
             BCPTTestContext.UserWait();
-            if i = 10 then
+            if i = 1 then
                 BCPTTestContext.StartScenario('Enter Line Quantity');
-            PurchaseLine.Validate(Quantity, 1);
-            if i = 10 then
+            SalesLine.Validate(Quantity, 1);
+            SalesLine.Modify(true);
+            if i = 1 then
                 BCPTTestContext.EndScenario('Enter Line Quantity');
-            PurchaseLine.Modify(true);
-            Commit();
             BCPTTestContext.UserWait();
+            if i mod 2 = 0 then
+                if Item.Next() = 0 then
+                    Item.FindSet();
         end;
-        exit(PurchaseHeader.SystemId);
+
+        exit(SalesHeader.SystemId);
     end;
 
     procedure GetDefaultParameters(): Text[1000]

@@ -1,4 +1,4 @@
-﻿codeunit 80016 "BCPT Sleep 1s"
+﻿codeunit 80016 "MB BCPT Sleep 1s"
 {
     trigger OnRun();
     begin

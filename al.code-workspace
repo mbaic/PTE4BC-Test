@@ -8,6 +8,9 @@
                     },
                     {
                         "path":  "PTE4BC.Test"
+                    },
+                    {
+                        "path":  "PTE4BC.PerformanceTest"
                     }
                 ],
     "settings":  {

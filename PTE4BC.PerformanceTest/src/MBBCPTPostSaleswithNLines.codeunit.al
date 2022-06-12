@@ -1,4 +1,4 @@
-﻿codeunit 80018 "MB BCPT Post Sales with N Lines" implements "BCPT Test Param. Provider"
+﻿codeunit 80018 "MB BCPT PostSales with N Lines" implements "BCPT Test Param. Provider"
 {
     SingleInstance = true;
 

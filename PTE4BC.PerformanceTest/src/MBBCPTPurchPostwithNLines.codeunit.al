@@ -1,4 +1,4 @@
-﻿codeunit 80019 "MB BCPT Purch. Post with N Lines" implements "BCPT Test Param. Provider"
+﻿codeunit 80019 "MB BCPT PurchPost with N Lines" implements "BCPT Test Param. Provider"
 {
     SingleInstance = true;
 

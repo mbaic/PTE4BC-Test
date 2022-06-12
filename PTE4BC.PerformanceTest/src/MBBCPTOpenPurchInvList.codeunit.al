@@ -1,4 +1,4 @@
-﻿codeunit 80012 "MB BCPT Open Purch. Invoice List"
+﻿codeunit 80012 "MB BCPT Open Purch. Inv. List"
 {
     // Test codeunits can only run in foreground (UI)
     Subtype = Test;

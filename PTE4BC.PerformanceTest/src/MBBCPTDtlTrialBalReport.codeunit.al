@@ -1,4 +1,4 @@
-﻿codeunit 80007 "MB BCPT Detail Trial Bal. Report"
+﻿codeunit 80007 "MB BCPT Dtl. Trial Bal. Report"
 {
     trigger OnRun();
     var

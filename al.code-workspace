@@ -5,6 +5,9 @@
                     },
                     {
                         "path":  "PTE4BC"
+                    },
+                    {
+                        "path":  "PTE4BC.Test"
                     }
                 ],
     "settings":  {
